@@ -52,7 +52,7 @@ local function update_volume_icon_size()
     end
 end
 
-local function handle_mouse_drag()
+local function handle_slider_drag()
     if love.mouse.isDown(1) then
         local mousex, mousey = love.mouse.getPosition()
         -- drag or not
@@ -186,7 +186,7 @@ end
 function love.update(dt)
     update_slider_button_position()
     update_volume_icon_size()
-    handle_mouse_drag()
+    handle_slider_drag()
     animated_value = animated_value + (slider.value-animated_value)*animated_speed*dt
 end
 
