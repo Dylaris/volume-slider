@@ -22,6 +22,8 @@ local volume_icon = {
     rect = {},
     image = love.graphics.newImage("assets/volume.png")
 }
+local volume_change = false
+local music = love.audio.newSource("assets/music.mp3", "stream")
 
 local function inside_circle(x, y, circle)
     local distance = math.sqrt((x-circle.x)^2+(y-circle.y)^2)
@@ -60,6 +62,7 @@ local function handle_slider_drag()
         if slider.dragging then
             local relativex = math.max(slider.x, math.min(slider.x+slider.width, mousex))
             slider.value = (relativex-slider.x) / slider.width
+            volume_change = true
         end
     else
         slider.dragging = false
@@ -70,6 +73,7 @@ local function handle_slider_click(mousex, mousey)
     if inside_rectangle(mousex, mousey, slider) then
         local relativex = math.max(slider.x, math.min(slider.x+slider.width, mousex))
         slider.value = (relativex-slider.x) / slider.width
+        volume_change = true
     end
 end
 
@@ -175,19 +179,25 @@ end
 function love.load()
     love.mouse.setVisible(false)
     love.graphics.setBackgroundColor(0.1, 0.1, 0.15)
+    music:setLooping(true)
+    music:play()
 end
 
 function love.mousepressed()
     local mousex, mousey = love.mouse.getPosition()
     handle_volume_icon_click(mousex, mousey)
-    handle_slider_click(mousex, mousey)
+    if display_slider then handle_slider_click(mousex, mousey) end
 end
 
 function love.update(dt)
     update_slider_button_position()
     update_volume_icon_size()
-    handle_slider_drag()
+    if display_slider then handle_slider_drag() end
     animated_value = animated_value + (slider.value-animated_value)*animated_speed*dt
+    if volume_change then
+        music:setVolume(slider.value)
+        volume_change = false
+    end
 end
 
 function love.draw()
