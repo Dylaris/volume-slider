@@ -154,7 +154,6 @@ local function draw_slider()
     )
 end
 
-
 local function draw_volume_icon()
     local mousex, mousey = love.mouse.getPosition()
     volume_icon.rect.width = volume_icon.image:getWidth()*volume_icon.scale
@@ -204,4 +203,17 @@ function love.draw()
     if display_slider then draw_slider() end
     draw_volume_icon()
     draw_mouse_icon()
+end
+
+function love.keypressed(key)
+    if key == "space" then display_slider = not display_slider end
+    if display_slider then
+        if key == "up" then
+            volume_change = true
+            slider.value = math.max(0, math.min(slider.value+0.1, 1))
+        elseif key == "down" then
+            volume_change = true
+            slider.value = math.min(1, math.max(slider.value-0.1, 0))
+        end
+    end
 end
