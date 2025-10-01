@@ -3,8 +3,8 @@ local animated_speed = 10
 local display_slider = true
 
 local slider = {
-    x = 100,
-    y = 250,
+    x = 120,
+    y = 100,
     width = 400,
     height = 10,
     value = 0.5,

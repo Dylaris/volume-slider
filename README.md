@@ -6,6 +6,8 @@ It is a volume-slider implemented by 'LOVE'.
 
 ## Start
 
+You should install 'LOVE' first.
+
 - install 'LOVE'
 
 - `love volume-slider/`
